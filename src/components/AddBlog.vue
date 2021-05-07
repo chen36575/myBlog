@@ -1,7 +1,7 @@
 <template>
   <div id="add-blog">
     <h2 id="add-blog-h2">添加博客</h2>
-    <form v-if="!submmited">
+    <form v-if="!submited">
       <label>博客标题</label>
       <input type="text" v-model="blog.title" required />
 
@@ -26,8 +26,7 @@
       </select>
       <button @click.prevent="post">提交博客</button>
     </form>
-
-    <div v-if="submmited">
+    <div v-if="submited">
       <h3>您的博客发布成功！</h3>
     </div>
 
@@ -61,19 +60,15 @@ export default {
         author: ''
       },
       authors: ['Luffy', 'Zoro', 'Sam'],
-      submmited: false
+      submited: false
     }
   },
   methods: {
     post: function () {
-      this.$http.post('https://jsonplaceholder.typicode.com/posts', {
-        title: this.blog.title,
-        body: this.blog.content,
-        userId: 1
-      })
+      this.$http.post('https://myblog-2021-3bfc5-default-rtdb.firebaseio.com/posts.json', this.blog)
         .then(function (data) {
           console.log(data)
-          this.submmited = true
+          this.submited = true
         })
     }
   }
@@ -114,7 +109,7 @@ textarea{
 button{
   display: block;
   margin: 20px 0;
-  background: hotpink;
+  background: indianred;
   color: ghostwhite;
   border: 0;
   padding: 14px;
