@@ -6,6 +6,10 @@
     <ul>
       <li v-for="category in blog.categories" :key="category">{{category}}</li>
     </ul>
+    <button @click="deleteSingleBlog">删除博客</button>
+    <router-link :to="'/edit/'+ id">
+      <button>编辑博客</button>
+    </router-link>
   </div>
 </template>
 
@@ -21,13 +25,21 @@ export default {
   created () {
     this.$http.get('https://myblog-2021-3bfc5-default-rtdb.firebaseio.com/posts/' + this.id + '.json/')
       .then(function (data) {
-        console.log(data)
+        // console.log(data)
         return data.json()
         // this.blog = data.body
       })
       .then(function (data) {
         this.blog = data
       })
+  },
+  methods: {
+    deleteSingleBlog () {
+      this.$http.delete('https://myblog-2021-3bfc5-default-rtdb.firebaseio.com/posts/' + this.id + '.json/')
+        .then(response => {
+          this.$router.push({path: '/'})
+        })
+    }
   }
 }
 </script>

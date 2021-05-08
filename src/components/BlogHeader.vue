@@ -3,7 +3,7 @@
     <ul>
       <li>
         <router-link to="/" exact>博客总览</router-link>
-        <router-link to="/add" exact>添加博客</router-link>
+        <router-link to="/add" exact>写个博客</router-link>
       </li>
     </ul>
   </div>

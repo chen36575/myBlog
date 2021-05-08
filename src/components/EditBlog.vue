@@ -1,6 +1,6 @@
 <template>
   <div id="add-blog">
-    <h2 id="add-blog-h2">添加博客</h2>
+    <h2 id="add-blog-h2">编辑博客</h2>
     <form v-if="!submited">
       <label>博客标题</label>
       <input type="text" v-model="blog.title" required />
@@ -24,7 +24,7 @@
           {{author}}
         </option>
       </select>
-      <button @click.prevent="post">提交博客</button>
+      <button @click.prevent="post">编辑博客</button>
     </form>
     <div v-if="submited">
       <h3>您的博客发布成功！</h3>
@@ -53,6 +53,7 @@ export default {
   name: 'add-blog',
   data () {
     return {
+      id: this.$route.params.id,
       blog: {
         title: '',
         content: '',
@@ -64,13 +65,23 @@ export default {
     }
   },
   methods: {
+    fetchData () {
+      // console.log(this.id)
+      this.$http.get('https://myblog-2021-3bfc5-default-rtdb.firebaseio.com/posts/' + this.id + '.json/')
+        .then(response => {
+          this.blog = response.body
+        })
+    },
     post: function () {
-      this.$http.post('https://myblog-2021-3bfc5-default-rtdb.firebaseio.com/posts.json', this.blog)
+      this.$http.put('https://myblog-2021-3bfc5-default-rtdb.firebaseio.com/posts/' + this.id + '.json/', this.blog)
         .then(function (data) {
-          console.log(data)
+          // console.log(data)
           this.submited = true
         })
     }
+  },
+  created () {
+    this.fetchData()
   }
 }
 </script>
